@@ -13,19 +13,23 @@ const scene = new THREE.Scene()
 const geometry = new THREE.BoxGeometry(1, 1, 1)
 const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
 const mesh = new THREE.Mesh(geometry, material)
+scene.add(mesh)
+
+// Position
 // mesh.position.x = 0.7
 // mesh.position.y = - 0.6
 // mesh.position.z = 1
-
 // Update all axis at once
 mesh.position.set(0.7, - 0.6, 1)
-
-
-scene.add(mesh)
 
 // This will set our position length to one (position length is the value between our mesh and the center of the scene)
 // mesh.position.normalize();
 
+// Scale
+// mesh.scale.x = 2
+// mesh.scale.y = 0.5
+// mesh.scale.z = 0.5
+mesh.scale.set(2, 0.5, 0.5)
 
 // Axes helper
 const axesHelper = new THREE.AxesHelper()
