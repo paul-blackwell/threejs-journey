@@ -42,6 +42,27 @@ window.addEventListener('resize', () => {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
 
+// Handle fullscreen
+window.addEventListener('dblclick', () => {
+
+    // Safari doesn't support fullscreenElement so we to use webkit to prefix it
+    const fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement
+
+    if(!fullscreenElement) {
+        if(canvas.requestFullscreen) {
+            canvas.requestFullscreen()
+        } else if (canvas.webkitFullscreen) {
+            canvas.webkitRequestFullscreen()
+        }
+    } else {
+        if(document.exitFullscreen) {
+            document.exitFullscreen()
+        } else {
+            document.webkitExitFullscreen()
+        }
+    }
+})
+
 /**
  * Camera
  */
