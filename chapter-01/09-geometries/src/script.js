@@ -12,7 +12,15 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 // Object
-const geometry = new THREE.BoxGeometry(1, 1, 1, 4, 4, 4)
+// const geometry = new THREE.BoxGeometry(1, 1, 1, 4, 4, 4)
+const positionArray = new Float32Array([
+    0,0,0,
+    0,1,0,
+    1,0,0,
+])
+
+const positionsAttribute = new THREE.BufferAttribute(positionArray, 3)
+
 const material = new THREE.MeshBasicMaterial({
      color: 0xff0000,
      wireframe: true, 
