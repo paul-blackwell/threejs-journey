@@ -7,7 +7,19 @@ import * as dat from 'lil-gui'
 /**
  * Debug
  */
-const gui = new dat.GUI()
+const gui = new dat.GUI({closed: true, width: 400})
+// gui.hide() // hide gui by default
+
+// Hide GUI when you press the "h" key
+window.addEventListener('keydown', (event) => {
+    // If already hidden - show
+    if(event.key === 'h' && gui._hidden) {
+         gui.show()
+         return;
+    }
+    // If not hidden - hide
+    if(event.key === 'h') gui.hide()    
+})
 
 const parameters = {
     color: 0xff0000,
