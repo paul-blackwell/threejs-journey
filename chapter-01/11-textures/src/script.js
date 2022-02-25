@@ -3,6 +3,18 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 /**
+ * Textures
+ */
+const textureLoader = new THREE.TextureLoader();
+const texture = textureLoader.load('/textures/door/color.jpg') 
+
+// Note you can load more tha one texture using the  textureLoader i.e
+// const texture1 = textureLoader.load('/textures/door/color.jpg')
+// const texture2 = textureLoader.load('/textures/door/color.jpg') 
+// const texture3 = textureLoader.load('/textures/door/color.jpg') 
+// const texture4 = textureLoader.load('/textures/door/color.jpg') 
+
+/**
  * Base
  */
 // Canvas
@@ -15,7 +27,7 @@ const scene = new THREE.Scene()
  * Object
  */
 const geometry = new THREE.BoxGeometry(1, 1, 1)
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+const material = new THREE.MeshBasicMaterial({ map: texture })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
