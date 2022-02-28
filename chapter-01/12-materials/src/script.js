@@ -29,6 +29,14 @@ const scene = new THREE.Scene()
  * Objects
  */
 const material = new THREE.MeshBasicMaterial()
+material.map = doorColorTexture
+// material.color.set('#ff00ff')
+// material.color = new THREE.Color('#ff00ff') // Does the same as material.color.set('#ff00ff')
+// material.wireframe = true
+// material.opacity = 0.5
+// material.transparent = true // If you want to use opacity or use an alphaMap you have to set material transparent to true
+// material.alphaMap = doorAlphaTexture
+material.side = THREE.DoubleSide // This add a material to the inside and outside of the Mesh
 
 const sphere = new THREE.Mesh(
     new THREE.SphereGeometry(0.5 , 16, 16),
