@@ -12,6 +12,8 @@ const gui = new dat.GUI()
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
+const cubeTextureLoader = new THREE.CubeTextureLoader()
+
 const doorColorTexture = textureLoader.load('/textures/door/color.jpg')
 const doorAlphaTexture = textureLoader.load('/textures/door/alpha.jpg')
 const doorAmbientOcclusionTexture = textureLoader.load('/textures/door/ambientOcclusion.jpg')
@@ -24,6 +26,15 @@ const gradientTexture = textureLoader.load('/textures/gradients/3.jpg')
 gradientTexture.minFilter = THREE.NearestFilter
 gradientTexture.magFilter = THREE.NearestFilter
 gradientTexture.generateMipmaps = false
+
+const environmentMapTexture = cubeTextureLoader.load([
+    'textures/environmentMaps/0/px.jpg',
+    'textures/environmentMaps/0/nx.jpg',
+    'textures/environmentMaps/0/py.jpg',
+    'textures/environmentMaps/0/ny.jpg',
+    'textures/environmentMaps/0/pz.jpg',
+    'textures/environmentMaps/0/nz.jpg',
+])
 
 /**
  * Base
@@ -65,19 +76,38 @@ const scene = new THREE.Scene()
 // const material = new THREE.MeshToonMaterial()
 // material.gradientMap = gradientTexture
 
+// const material = new THREE.MeshStandardMaterial()
+// material.metalness = 0 // You can use this on its own but Shouldn't use this with metalnessMap or leave a default 0
+// material.roughness = 1 // You can use this on its own but Shouldn't use this with roughnessMap or leave at default 1
+// material.map = doorColorTexture
+// material.aoMap = doorAmbientOcclusionTexture
+// material.aoMapIntensity = 1
+// material.displacementMap = doorHeightTexture
+// material.displacementScale = 0.1 // This is for the doorHeightTexture 
+// material.metalnessMap = doorMetalnessTexture
+// material.roughnessMap = doorRoughnessTexture
+// material.normalMap = doorNormalTexture // Always a good idea to use over the displacementMap less taxing on the GPU
+// material.normalScale.set(0.5,0.5)
+// material.transparent = true
+// material.alphaMap = doorAlphaTexture
+
 const material = new THREE.MeshStandardMaterial()
-material.metalness = 0.45
-material.roughness = 0.65
-material.map = doorColorTexture
-material.aoMap = doorAmbientOcclusionTexture
-material.aoMapIntensity = 1
+material.metalness = 0.7 
+material.roughness = 0.2
+
+/**
+ * Environment map
+ * The environment map is like an image of what's surrounding the scene. 
+ * You can use it to add reflection or refraction to your objects. It can also be used as lighting information.
+ */
 
 gui.add(material, 'metalness').min(0).max(1).step(0.0001)
 gui.add(material, 'roughness').min(0).max(1).step(0.0001)
 gui.add(material, 'aoMapIntensity').min(0).max(10).step(0.0001)
+gui.add(material, 'displacementScale').min(0).max(1).step(0.0001)
 
 const sphere = new THREE.Mesh(
-    new THREE.SphereGeometry(0.5 , 16, 16),
+    new THREE.SphereGeometry(0.5 , 64, 64),
     material,
 )
 sphere.geometry.setAttribute(
@@ -87,7 +117,7 @@ sphere.geometry.setAttribute(
 sphere.position.x = -1.5
 
 const plane = new THREE.Mesh(
-    new THREE.PlaneGeometry( 1, 1),
+    new THREE.PlaneGeometry( 1, 1, 100, 100),
     material,
 )
 plane.geometry.setAttribute(
@@ -96,7 +126,7 @@ plane.geometry.setAttribute(
 )
 
 const tours = new THREE.Mesh(
-    new THREE.TorusGeometry( 0.3, 0.2, 16, 32),
+    new THREE.TorusGeometry( 0.3, 0.2, 64, 128),
     material,
 )
 tours.geometry.setAttribute(
