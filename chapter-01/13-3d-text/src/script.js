@@ -2,6 +2,7 @@ import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
 import * as dat from 'lil-gui'
 
 /**
@@ -16,6 +17,10 @@ const canvas = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene()
 
+// Axes helper
+const axesHelper = new THREE.AxesHelper()
+scene.add(axesHelper);
+
 /**
  * Textures
  */
@@ -27,18 +32,27 @@ const textureLoader = new THREE.TextureLoader()
 const fontLoader = new FontLoader()
 fontLoader.load(
     '/fonts/helvetiker_regular.typeface.json',
-    () => console.log('Font loaded')
+    (font) => {
+        const textGeometry = new TextGeometry(
+            'Hello three.js',
+            {
+                font: font,
+                size: 0.5,
+                height: 0.2,
+                curveSegments: 5,
+                bevelEnabled: true,
+                bevelThickness: 0.03,
+                bevelSize: 0.02,
+                bevelOffset: 0,
+                bevelSegments: 4,
+            }
+        )
+        const textMaterial = new THREE.MeshBasicMaterial({wireframe: true});
+        const text = new THREE.Mesh(textGeometry, textMaterial)
+        scene.add(text)
+    }
 )
 
-/**
- * Object
- */
-const cube = new THREE.Mesh(
-    new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshBasicMaterial()
-)
-
-scene.add(cube)
 
 /**
  * Sizes
