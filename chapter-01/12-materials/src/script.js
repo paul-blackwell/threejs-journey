@@ -94,6 +94,7 @@ const scene = new THREE.Scene()
 const material = new THREE.MeshStandardMaterial()
 material.metalness = 0.7 
 material.roughness = 0.2
+material.envMap = environmentMapTexture;
 
 /**
  * Environment map
