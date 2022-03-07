@@ -19,12 +19,13 @@ const scene = new THREE.Scene()
 
 // Axes helper
 const axesHelper = new THREE.AxesHelper()
-scene.add(axesHelper);
+// scene.add(axesHelper);
 
 /**
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
+const matcapTexture = textureLoader.load('/textures/matcaps/1.png')
 
 /**
  * Fonts
@@ -47,14 +48,17 @@ fontLoader.load(
                 bevelSegments: 4,
             }
         )
-        textGeometry.computeBoundingBox()
-        textGeometry.translate(
-            - (textGeometry.boundingBox.max.x - 0.02 ) * 0.5, // We have to minus 0.02 as our bevelSize is 0.02 and our translate will not be exactly center if me don't
-            - (textGeometry.boundingBox.max.y - 0.02 ) * 0.5, // We have to minus 0.02 as our bevelSize is 0.02 and our translate will not be exactly center if me don't
-            - (textGeometry.boundingBox.max.z - 0.03 ) * 0.5, // We have to minus 0.02 as our bevelThickness is 0.03 and our translate will not be exactly center if me don't
-        )
+        // textGeometry.computeBoundingBox()
+        // textGeometry.translate(
+        //     - (textGeometry.boundingBox.max.x - 0.02 ) * 0.5, // We have to minus 0.02 as our bevelSize is 0.02 and our translate will not be exactly center if me don't
+        //     - (textGeometry.boundingBox.max.y - 0.02 ) * 0.5, // We have to minus 0.02 as our bevelSize is 0.02 and our translate will not be exactly center if me don't
+        //     - (textGeometry.boundingBox.max.z - 0.03 ) * 0.5, // We have to minus 0.02 as our bevelThickness is 0.03 and our translate will not be exactly center if me don't
+        // )
+        // This does the same as the computeBoundingBox above ^
+        textGeometry.center()
 
-        const textMaterial = new THREE.MeshBasicMaterial({wireframe: true});
+        const textMaterial = new THREE.MeshMatcapMaterial({matcap: matcapTexture});
+        // textMaterial.wireframe = true
         const text = new THREE.Mesh(textGeometry, textMaterial)
         scene.add(text)
     }
