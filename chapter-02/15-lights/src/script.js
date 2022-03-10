@@ -40,6 +40,26 @@ pointLight.distance = 3
 pointLight.decay = 1
 scene.add(pointLight)
 
+// This only works with MeshStandardMaterial and MeshPhysicalMaterial 
+const rectAreaLight = new THREE.RectAreaLight()
+rectAreaLight.color = new THREE.Color(0x4e00ff)
+rectAreaLight.intensity = 5
+rectAreaLight.position.set(- 1.5, 0, 1.5)
+rectAreaLight.lookAt(new THREE.Vector3()) // If you put an empty vector3 its position is 0,0,0 so the center of the scene
+rectAreaLight.width = 1
+rectAreaLight.height = 1
+scene.add(rectAreaLight)
+
+const spotLight = new THREE.SpotLight()
+spotLight.color = new THREE.Color(0x78ff00)
+spotLight.intensity = 0.5
+spotLight.distance = 10
+spotLight.angle = Math.PI * 0.1
+spotLight.penumbra = 0.25
+spotLight.decay = 1
+spotLight.position.set(0, 2, 3)
+scene.add(spotLight)
+
 // GUI light example 
 gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001).name('Ambient light intensity')
 gui.add(directionalLight, 'intensity').min(0).max(1).step(0.001).name('Directional light intensity')
@@ -47,6 +67,9 @@ gui.add(hemisphereLight, 'intensity').min(0).max(1).step(0.001).name('Hemisphere
 gui.add(pointLight, 'intensity').min(0).max(1).step(0.001).name('Point light intensity')
 gui.add(pointLight, 'distance').min(0).max(5).step(0.001).name('Point light distance')
 gui.add(pointLight, 'decay').min(0).max(5).step(0.001).name('Point light decay')
+gui.add(rectAreaLight, 'intensity').min(0).max(10).step(0.001).name('Rect Area light intensity')
+gui.add(spotLight, 'intensity').min(0).max(1).step(0.001).name('Spot light intensity')
+// TODO: ADD more spot light options to the gui
 
 /**
  * Objects
