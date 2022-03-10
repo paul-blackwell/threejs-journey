@@ -29,9 +29,24 @@ directionalLight.intensity = 0.5
 directionalLight.position.set(1, 0.25, 0)
 scene.add(directionalLight)
 
+const hemisphereLight = new THREE.HemisphereLight(0xfff0000, 0x0000ff, 0.3)
+scene.add(hemisphereLight);
+
+const pointLight = new THREE.PointLight()
+pointLight.color = new THREE.Color(0xff9000)
+pointLight.intensity = 0.5
+pointLight.position.set(1, -0.5, 1)
+pointLight.distance = 3
+pointLight.decay = 1
+scene.add(pointLight)
+
 // GUI light example 
 gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001).name('Ambient light intensity')
 gui.add(directionalLight, 'intensity').min(0).max(1).step(0.001).name('Directional light intensity')
+gui.add(hemisphereLight, 'intensity').min(0).max(1).step(0.001).name('Hemisphere light intensity')
+gui.add(pointLight, 'intensity').min(0).max(1).step(0.001).name('Point light intensity')
+gui.add(pointLight, 'distance').min(0).max(5).step(0.001).name('Point light distance')
+gui.add(pointLight, 'decay').min(0).max(5).step(0.001).name('Point light decay')
 
 /**
  * Objects
