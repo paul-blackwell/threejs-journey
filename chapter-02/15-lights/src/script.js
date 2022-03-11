@@ -93,19 +93,20 @@ const rectAreaLightHelper = new RectAreaLightHelper(rectAreaLight);
 scene.add(rectAreaLightHelper)
 
 // GUI light example 
-gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001).name('Ambient light intensity')
-gui.add(directionalLight, 'intensity').min(0).max(1).step(0.001).name('Directional light intensity')
-gui.add(hemisphereLight, 'intensity').min(0).max(1).step(0.001).name('Hemisphere light intensity')
-gui.add(pointLight, 'intensity').min(0).max(1).step(0.001).name('Point light intensity')
-gui.add(pointLight, 'distance').min(0).max(5).step(0.001).name('Point light distance')
-gui.add(pointLight, 'decay').min(0).max(5).step(0.001).name('Point light decay')
-gui.add(rectAreaLight, 'intensity').min(0).max(10).step(0.001).name('Rect Area light intensity')
-gui.add(spotLight, 'intensity').min(0).max(1).step(0.001).name('Spot light intensity')
-gui.add(spotLight, 'distance').min(0).max(20).step(0.001).name('Spot light distance')
-gui.add(spotLight, 'angle').min(0).max(1).step(0.001).name('Spot light angle')
-gui.add(spotLight, 'decay').min(0).max(2).step(0.001).name('Spot light decay')
-gui.add(spotLight, 'decay').min(0).max(2).step(0.001).name('Spot light decay')
-
+gui.addFolder('Ambient Light').add(ambientLight, 'intensity').min(0).max(1).step(0.001).name('Ambient light intensity')
+gui.addFolder('Directional Light').add(directionalLight, 'intensity').min(0).max(1).step(0.001).name('Directional light intensity')
+gui.addFolder('Hemisphere Light').add(hemisphereLight, 'intensity').min(0).max(1).step(0.001).name('Hemisphere light intensity')
+const pointLightFolder = gui.addFolder('Point Light')
+pointLightFolder.add(pointLight, 'intensity').min(0).max(1).step(0.001).name('Point light intensity')
+pointLightFolder.add(pointLight, 'distance').min(0).max(5).step(0.001).name('Point light distance')
+pointLightFolder.add(pointLight, 'decay').min(0).max(5).step(0.001).name('Point light decay')
+gui.addFolder('RectArea Light').add(rectAreaLight, 'intensity').min(0).max(10).step(0.001).name('Rect Area light intensity')
+const spotLightFolder = gui.addFolder('Spot Light')
+spotLightFolder.add(spotLight, 'intensity').min(0).max(1).step(0.001).name('Spot light intensity')
+spotLightFolder.add(spotLight, 'distance').min(0).max(20).step(0.001).name('Spot light distance')
+spotLightFolder.add(spotLight, 'angle').min(0).max(1).step(0.001).name('Spot light angle')
+spotLightFolder.add(spotLight, 'decay').min(0).max(2).step(0.001).name('Spot light decay')
+spotLightFolder.add(spotLight.target.position, 'z').min(0).max(1).step(0.001).name('Spot Light target position x')
 
 /**
  * Objects
@@ -204,6 +205,9 @@ const tick = () =>
     sphere.rotation.x = 0.15 * elapsedTime
     cube.rotation.x = 0.15 * elapsedTime
     torus.rotation.x = 0.15 * elapsedTime
+
+    // Update spotLightHelper (have to do this as if we don't it won't update when we spotLight.target.position in the GUI)
+    spotLightHelper.update()
 
     // Update controls
     controls.update()
