@@ -76,25 +76,25 @@ const scene = new THREE.Scene()
 // const material = new THREE.MeshToonMaterial()
 // material.gradientMap = gradientTexture
 
-// const material = new THREE.MeshStandardMaterial()
-// material.metalness = 0 // You can use this on its own but Shouldn't use this with metalnessMap or leave a default 0
-// material.roughness = 1 // You can use this on its own but Shouldn't use this with roughnessMap or leave at default 1
-// material.map = doorColorTexture
-// material.aoMap = doorAmbientOcclusionTexture
-// material.aoMapIntensity = 1
-// material.displacementMap = doorHeightTexture
-// material.displacementScale = 0.1 // This is for the doorHeightTexture 
-// material.metalnessMap = doorMetalnessTexture
-// material.roughnessMap = doorRoughnessTexture
-// material.normalMap = doorNormalTexture // Always a good idea to use over the displacementMap less taxing on the GPU
-// material.normalScale.set(0.5,0.5)
-// material.transparent = true
-// material.alphaMap = doorAlphaTexture
-
 const material = new THREE.MeshStandardMaterial()
-material.metalness = 0.7 
-material.roughness = 0.2
-material.envMap = environmentMapTexture;
+material.metalness = 0 // You can use this on its own but Shouldn't use this with metalnessMap or leave a default 0
+material.roughness = 1 // You can use this on its own but Shouldn't use this with roughnessMap or leave at default 1
+material.map = doorColorTexture
+material.aoMap = doorAmbientOcclusionTexture
+material.aoMapIntensity = 1
+material.displacementMap = doorHeightTexture
+material.displacementScale = 0.1 // This is for the doorHeightTexture 
+material.metalnessMap = doorMetalnessTexture
+material.roughnessMap = doorRoughnessTexture
+material.normalMap = doorNormalTexture // Always a good idea to use over the displacementMap less taxing on the GPU
+material.normalScale.set(0.5,0.5)
+material.transparent = true
+material.alphaMap = doorAlphaTexture
+
+// const material = new THREE.MeshStandardMaterial()
+// material.metalness = 0.7 
+// material.roughness = 0.2
+// material.envMap = environmentMapTexture;
 
 /**
  * Environment map
