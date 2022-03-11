@@ -56,9 +56,19 @@ spotLight.intensity = 0.5
 spotLight.distance = 10
 spotLight.angle = Math.PI * 0.1
 spotLight.penumbra = 0.25
-spotLight.decay = 1
+spotLight.decay = 1 // Mainly just use 1 
 spotLight.position.set(0, 2, 3)
 scene.add(spotLight)
+
+/**
+ * We can't use lookAt to change what the spotLight is looking at.
+ * For that we need to use the spotLight.target, think of this as
+ * a point in space (you can't see in the scene) that the spotLight 
+ * is looking at and this is how we will change what the spotLight is
+ * looking at.
+ */
+spotLight.target.position.x = - 0.75
+scene.add(spotLight.target)
 
 // GUI light example 
 gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001).name('Ambient light intensity')
@@ -69,7 +79,11 @@ gui.add(pointLight, 'distance').min(0).max(5).step(0.001).name('Point light dist
 gui.add(pointLight, 'decay').min(0).max(5).step(0.001).name('Point light decay')
 gui.add(rectAreaLight, 'intensity').min(0).max(10).step(0.001).name('Rect Area light intensity')
 gui.add(spotLight, 'intensity').min(0).max(1).step(0.001).name('Spot light intensity')
-// TODO: ADD more spot light options to the gui
+gui.add(spotLight, 'distance').min(0).max(20).step(0.001).name('Spot light distance')
+gui.add(spotLight, 'angle').min(0).max(1).step(0.001).name('Spot light angle')
+gui.add(spotLight, 'decay').min(0).max(2).step(0.001).name('Spot light decay')
+gui.add(spotLight, 'decay').min(0).max(2).step(0.001).name('Spot light decay')
+
 
 /**
  * Objects
