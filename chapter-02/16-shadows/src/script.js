@@ -31,6 +31,21 @@ gui.add(directionalLight.position, 'x').min(- 5).max(5).step(0.001)
 gui.add(directionalLight.position, 'y').min(- 5).max(5).step(0.001)
 gui.add(directionalLight.position, 'z').min(- 5).max(5).step(0.001)
 scene.add(directionalLight)
+directionalLight.castShadow = true
+directionalLight.shadow.mapSize.width = 1024 // MapSize.width and height must be a power of two for mipmapping
+directionalLight.shadow.mapSize.height = 1024 // MapSize.width and height must be a power of two for mipmapping
+
+// These change the size of our directionalLight camera (which is an OrthographicCamera)
+directionalLight.shadow.camera.top = 2
+directionalLight.shadow.camera.right = 2
+directionalLight.shadow.camera.bottom = - 2
+directionalLight.shadow.camera.left = - 2
+
+directionalLight.shadow.camera.near = 2
+directionalLight.shadow.camera.far = 6
+
+const directionalLightCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
+scene.add(directionalLightCameraHelper)
 
 /**
  * Materials
@@ -47,6 +62,7 @@ const sphere = new THREE.Mesh(
     new THREE.SphereGeometry(0.5, 32, 32),
     material
 )
+sphere.castShadow = true
 
 const plane = new THREE.Mesh(
     new THREE.PlaneGeometry(5, 5),
@@ -54,6 +70,7 @@ const plane = new THREE.Mesh(
 )
 plane.rotation.x = - Math.PI * 0.5
 plane.position.y = - 0.5
+plane.receiveShadow = true
 
 scene.add(sphere, plane)
 
@@ -102,6 +119,9 @@ const renderer = new THREE.WebGLRenderer({
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+// Enabled shadows in the scene
+renderer.shadowMap.enabled = true
 
 /**
  * Animate
