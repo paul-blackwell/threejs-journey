@@ -2,6 +2,7 @@ import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'lil-gui'
+import { RedFormat } from 'three'
 
 /**
  * Base
@@ -34,6 +35,7 @@ scene.add(directionalLight)
 directionalLight.castShadow = true
 directionalLight.shadow.mapSize.width = 1024 // MapSize.width and height must be a power of two for mipmapping
 directionalLight.shadow.mapSize.height = 1024 // MapSize.width and height must be a power of two for mipmapping
+directionalLight.shadow.radius = 10 // Shadow blur. Notes doesn't work with PCFSoftShadowMap
 
 // These change the size of our directionalLight camera (which is an OrthographicCamera)
 directionalLight.shadow.camera.top = 2
@@ -45,7 +47,15 @@ directionalLight.shadow.camera.near = 2
 directionalLight.shadow.camera.far = 6
 
 const directionalLightCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
+directionalLightCameraHelper.visible = false
 scene.add(directionalLightCameraHelper)
+const menu = { 'DirectionalLight Camera Helper' : false };
+// THis shows add hides helper in GUI
+gui.add(menu, 'DirectionalLight Camera Helper').onChange(() => { 
+    // Toggle helper
+    if(!menu['DirectionalLight Camera Helper']) !menu['DirectionalLight Camera Helper'];
+    directionalLightCameraHelper.visible = menu['DirectionalLight Camera Helper']
+});
 
 /**
  * Materials
@@ -122,6 +132,15 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 // Enabled shadows in the scene
 renderer.shadowMap.enabled = true
+
+/**
+ * Note: Shadow map algorithms
+ * THREE.BasicShadowMap Very performant but lousy quality
+ * THREE.PCFShadowMap Less performant but smoother edges
+ * THREE.PCFSoftShadowMap Less performant but even softer edges
+ * THREE.VSMShadowMap Less performant, more constraints, can have unexpected results
+ */
+renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
 /**
  * Animate
