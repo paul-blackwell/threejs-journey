@@ -20,12 +20,12 @@ const scene = new THREE.Scene()
  * Lights
  */
 // Ambient light
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.4)
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
 gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001)
 scene.add(ambientLight)
 
 // Directional light
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.4)
+const directionalLight = new THREE.DirectionalLight(0xffffff, 0.3)
 directionalLight.position.set(2, 2, - 1)
 gui.add(directionalLight, 'intensity').min(0).max(1).step(0.001)
 gui.add(directionalLight.position, 'x').min(- 5).max(5).step(0.001)
@@ -50,9 +50,13 @@ const directionalLightCameraHelper = new THREE.CameraHelper(directionalLight.sha
 scene.add(directionalLightCameraHelper)
 
 // This shows add hides helper in GUI
-const menu = { showDirectionalLightCameraHelper : false, showSpotLightCameraHelper : false };
+const menu = { 
+    showDirectionalLightCameraHelper : false, 
+    showSpotLightCameraHelper : false,
+    showPointLightCameraHelper: false,
+};
 directionalLightCameraHelper.visible = false
-gui.add(menu, 'showDirectionalLightCameraHelper').name('DirectionalLight Camera Helper').onChange(() => { 
+gui.add(menu, 'showDirectionalLightCameraHelper').name('DirectionalLight Shadow Camera Helper').onChange(() => { 
     // Toggle helper
     directionalLightCameraHelper.visible = menu.showDirectionalLightCameraHelper
 });
@@ -76,11 +80,31 @@ scene.add(spotLightCameraHelper)
 
 // This shows add hides helper in GUI
 spotLightCameraHelper.visible = false
-gui.add(menu, 'showSpotLightCameraHelper').name('SpotLight Camera Helper').onChange(() => { 
+gui.add(menu, 'showSpotLightCameraHelper').name('SpotLight Shadow Camera Helper').onChange(() => { 
     // Toggle helper
     spotLightCameraHelper.visible = menu.showSpotLightCameraHelper
 });
 
+// Point light (WARING: if you use a point light shadow it will render 6 shadow maps in the background)
+const pointLight = new THREE.PointLight(0xffffff, 0.3)
+pointLight.castShadow = true
+pointLight.shadow.mapSize.width = 1024
+pointLight.shadow.mapSize.height = 1024
+pointLight.shadow.camera.near = 0.1
+pointLight.shadow.camera.far = 5
+
+pointLight.position.set( -1, 1, 0);
+scene.add(pointLight)
+
+const pointLightCameraHelper = new THREE.CameraHelper(pointLight.shadow.camera)
+scene.add(pointLightCameraHelper)
+
+// This shows add hides helper in GUI
+pointLightCameraHelper.visible = false
+gui.add(menu, 'showPointLightCameraHelper').name('PointLight Shadow Camera Helper').onChange(() => { 
+    // Toggle helper
+    pointLightCameraHelper.visible = menu.showPointLightCameraHelper
+});
 
 
 /**
