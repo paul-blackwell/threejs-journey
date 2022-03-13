@@ -2,7 +2,13 @@ import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'lil-gui'
-import { RedFormat } from 'three'
+
+/**
+ * Textures
+ */
+const textureLoader = new THREE.TextureLoader()
+const bakedShadow = textureLoader.load('/textures/bakedShadow.jpg')
+const simpleShadow = textureLoader.load('/textures/simpleShadow.jpg')
 
 /**
  * Base
@@ -128,11 +134,33 @@ const plane = new THREE.Mesh(
     new THREE.PlaneGeometry(5, 5),
     material
 )
+
+// If you want to use the baked shadow on the plane
+// const plane = new THREE.Mesh(
+//     new THREE.PlaneGeometry(5, 5),
+//     new THREE.MeshBasicMaterial({ // This add a shadow texture 
+//         map: bakedShadow
+//     })
+// )
+
 plane.rotation.x = - Math.PI * 0.5
 plane.position.y = - 0.5
 plane.receiveShadow = true
 
 scene.add(sphere, plane)
+
+const sphereShadow = new THREE.Mesh(
+    new THREE.PlaneBufferGeometry(1.5, 1.5),
+    new THREE.MeshBasicMaterial({
+        color: 0x000000,
+        transparent: true,
+        alphaMap: simpleShadow,
+    })
+)
+sphereShadow.rotation.x = - Math.PI * 0.5
+sphereShadow.position.y = plane.position.y + 0.01
+
+scene.add(sphereShadow)
 
 /**
  * Sizes
@@ -183,6 +211,9 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 // Enabled shadows in the scene
 renderer.shadowMap.enabled = true
 
+// This deactivates all shadows uncomment to enable shadows!!!
+renderer.shadowMap.enabled = false
+
 /**
  * Note: Shadow map algorithms
  * THREE.BasicShadowMap Very performant but lousy quality
@@ -200,6 +231,15 @@ const clock = new THREE.Clock()
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
+
+    // Update the sphere
+    sphere.position.x = Math.cos(elapsedTime) * 1.5
+    sphere.position.z = Math.sin(elapsedTime) * 1.5
+    sphere.position.y = Math.abs(Math.sin(elapsedTime * 3))
+
+
+    // Update shadow
+    // sphereShadow.position.x = sphere
 
     // Update controls
     controls.update()
