@@ -47,14 +47,15 @@ directionalLight.shadow.camera.near = 2
 directionalLight.shadow.camera.far = 6
 
 const directionalLightCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
-directionalLightCameraHelper.visible = false
 scene.add(directionalLightCameraHelper)
-const menu = { 'DirectionalLight Camera Helper' : false };
-// THis shows add hides helper in GUI
-gui.add(menu, 'DirectionalLight Camera Helper').onChange(() => { 
+
+// This shows add hides helper in GUI
+const menu = { showDirectionalLightCameraHelper : false };
+directionalLightCameraHelper.visible = false
+gui.add(menu, 'showDirectionalLightCameraHelper').name('DirectionalLight Camera Helper').onChange(() => { 
     // Toggle helper
-    if(!menu['DirectionalLight Camera Helper']) !menu['DirectionalLight Camera Helper'];
-    directionalLightCameraHelper.visible = menu['DirectionalLight Camera Helper']
+    if(!menu.showDirectionalLightCameraHelper) !menu.showDirectionalLightCameraHelper;
+    directionalLightCameraHelper.visible = menu.showDirectionalLightCameraHelper
 });
 
 /**
