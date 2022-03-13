@@ -50,13 +50,33 @@ const directionalLightCameraHelper = new THREE.CameraHelper(directionalLight.sha
 scene.add(directionalLightCameraHelper)
 
 // This shows add hides helper in GUI
-const menu = { showDirectionalLightCameraHelper : false };
+const menu = { showDirectionalLightCameraHelper : false, showSpotLightCameraHelper : false };
 directionalLightCameraHelper.visible = false
 gui.add(menu, 'showDirectionalLightCameraHelper').name('DirectionalLight Camera Helper').onChange(() => { 
     // Toggle helper
-    if(!menu.showDirectionalLightCameraHelper) !menu.showDirectionalLightCameraHelper;
     directionalLightCameraHelper.visible = menu.showDirectionalLightCameraHelper
 });
+
+
+// Spot light
+const spotLight = new THREE.SpotLight(0xffffff, 0.4, 10, Math.PI * 0.3)
+spotLight.castShadow = true
+
+spotLight.position.set(0, 2, 2)
+scene.add(spotLight)
+scene.add(spotLight.target)
+
+const spotLightCameraHelper = new THREE.CameraHelper(spotLight.shadow.camera)
+scene.add(spotLightCameraHelper)
+
+// This shows add hides helper in GUI
+spotLightCameraHelper.visible = false
+gui.add(menu, 'showSpotLightCameraHelper').name('SpotLight Camera Helper').onChange(() => { 
+    // Toggle helper
+    spotLightCameraHelper.visible = menu.showSpotLightCameraHelper
+});
+
+
 
 /**
  * Materials
