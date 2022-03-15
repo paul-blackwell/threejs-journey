@@ -151,6 +151,8 @@ for(let i = 0; i < 50; i++) {
     grave.rotation.y = (Math.random() - 0.5) * 0.4
     grave.rotation.z = (Math.random() - 0.5) * 0.4
     graves.add(grave)
+
+    grave.castShadow = true
 }
 
 
@@ -198,7 +200,7 @@ house.add(doorLight);
 const ghost1 = new THREE.PointLight('#ff00ff', 2 , 3)
 scene.add(ghost1)
 
-const ghost2 = new THREE.PointLight('#00ffffff', 2 , 3)
+const ghost2 = new THREE.PointLight('#00ffff', 2 , 3)
 scene.add(ghost2)
 
 const ghost3 = new THREE.PointLight('#ffff00', 2 , 3)
@@ -250,6 +252,25 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 renderer.setClearColor('#262837');
+
+/**
+ * Shadows
+ */
+renderer.shadowMap.enabled = true
+moonLight.castShadow = true
+doorLight.castShadow = true
+ghost1.castShadow = true
+ghost2.castShadow = true
+ghost3.castShadow = true
+
+walls.castShadow = true
+bush1.castShadow = true
+bush2.castShadow = true
+bush3.castShadow = true
+bush4.castShadow = true
+
+floor.receiveShadow = true
+
 
 /**
  * Animate
