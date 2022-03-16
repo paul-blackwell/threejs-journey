@@ -158,7 +158,7 @@ for(let i = 0; i < 50; i++) {
 
 // Floor
 const floor = new THREE.Mesh(
-    new THREE.PlaneGeometry(20, 20),
+    new THREE.PlaneGeometry(50, 50),
     new THREE.MeshStandardMaterial({ 
         map: grassColorTexture,
         aoMap: grassAmbientOcclusionTexture,
