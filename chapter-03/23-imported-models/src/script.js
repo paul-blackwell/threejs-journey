@@ -21,11 +21,36 @@ const scene = new THREE.Scene()
  */
 const gltfLoader = new GLTFLoader() 
 gltfLoader.load(
-    '/models/Duck/glTF/Duck.gltf',
+    '/models/FlightHelmet/glTF/FlightHelmet.gltf',
     (gltf) => {
         // console.log('success')
-        // console.log(gltf)
-        scene.add(gltf.scene.children[0])
+        console.log(gltf.scene)
+
+        /**
+         * The problem is that when we add a child from one scene to the other, it gets 
+         * automatically removed from the first scene. That means that the first scene now 
+         * has fewer children in it.
+         * 
+         * When we add the first object, it gets removed from the first scene, and the 
+         * second element just moved to the first place. But your loop now takes the second 
+         * element of the array. You'll always have elements left in the children array
+         * 
+         * There are multiple solutions to this problem. The first solution is to take the 
+         * first children of the loaded scene and add it to our scene until there is none left:
+         */
+        // while (gltf.scene.children.length > 0) {
+        //     scene.add(gltf.scene.children[0])
+        // }
+
+        /**
+         * Another solution would be to duplicate the children array in order to have an 
+         * unaltered independent array. To do that, we can use the spread operator ... and put 
+         * the result in a brand new array []:
+         */
+        const children = [...gltf.scene.children]
+        for(const child of children) {
+            scene.add(child)
+        }
     },
     // (progress) => {
     //     console.log('progress')
