@@ -1,6 +1,7 @@
 import './style.css'
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'lil-gui'
 
@@ -19,9 +20,19 @@ const scene = new THREE.Scene()
 /**
  * Models
  */
-const gltfLoader = new GLTFLoader() 
+// Only use the dracoLoader for big files, for small files its not worth the overhead
+const dracoLoader = new DRACOLoader()
+/**
+ * Can use without but much faster, find 'draco' file in node modules
+ * 'three/examples/js/libs/draco' then copy it into static folder
+ */
+dracoLoader.setDecoderPath('/draco/')
+
+const gltfLoader = new GLTFLoader()
+gltfLoader.setDRACOLoader(dracoLoader)
 gltfLoader.load(
-    '/models/FlightHelmet/glTF/FlightHelmet.gltf',
+    //'/models/FlightHelmet/glTF/FlightHelmet.gltf',
+    '/models/Duck/glTF-Draco/Duck.gltf',
     (gltf) => {
         // console.log('success')
         console.log(gltf.scene)
@@ -51,6 +62,9 @@ gltfLoader.load(
         for(const child of children) {
             scene.add(child)
         }
+
+        // Or you can just add the whole glTF scene to your scene
+        //scene.add(gltf.scene)
     },
     // (progress) => {
     //     console.log('progress')
