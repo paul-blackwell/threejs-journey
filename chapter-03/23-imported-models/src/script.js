@@ -21,18 +21,21 @@ const scene = new THREE.Scene()
  * Models
  */
 // Only use the dracoLoader for big files, for small files its not worth the overhead
-const dracoLoader = new DRACOLoader()
+// const dracoLoader = new DRACOLoader()
 /**
  * Can use without but much faster, find 'draco' file in node modules
  * 'three/examples/js/libs/draco' then copy it into static folder
  */
-dracoLoader.setDecoderPath('/draco/')
+// dracoLoader.setDecoderPath('/draco/')
+
+let mixer = null
 
 const gltfLoader = new GLTFLoader()
-gltfLoader.setDRACOLoader(dracoLoader)
+// gltfLoader.setDRACOLoader(dracoLoader)
 gltfLoader.load(
     //'/models/FlightHelmet/glTF/FlightHelmet.gltf',
-    '/models/Duck/glTF-Draco/Duck.gltf',
+    //'/models/Duck/glTF-Draco/Duck.gltf',
+    '/models/Fox/glTF/Fox.gltf',
     (gltf) => {
         // console.log('success')
         console.log(gltf.scene)
@@ -58,13 +61,21 @@ gltfLoader.load(
          * unaltered independent array. To do that, we can use the spread operator ... and put 
          * the result in a brand new array []:
          */
-        const children = [...gltf.scene.children]
-        for(const child of children) {
-            scene.add(child)
-        }
+        // const children = [...gltf.scene.children]
+        // for(const child of children) {
+        //     scene.add(child)
+        // }
+
+        // For animations
+        mixer = new THREE.AnimationMixer(gltf.scene)
+        const action = mixer.clipAction(gltf.animations[2])
+        action.play()
+
+        console.log(action)
 
         // Or you can just add the whole glTF scene to your scene
-        //scene.add(gltf.scene)
+        gltf.scene.scale.set(0.025, 0.025, 0.025)
+        scene.add(gltf.scene)
     },
     // (progress) => {
     //     console.log('progress')
@@ -166,6 +177,9 @@ const tick = () =>
     const elapsedTime = clock.getElapsedTime()
     const deltaTime = elapsedTime - previousTime
     previousTime = elapsedTime
+
+    // Update mixer
+    if(mixer !== null) mixer.update(deltaTime)
 
     // Update controls
     controls.update()
