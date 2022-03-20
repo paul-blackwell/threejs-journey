@@ -117,6 +117,24 @@ const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
 
+    // Update particles
+    // particles.rotation.y = elapsedTime * 0.02
+
+    /**
+     * WARNING: 
+     * Unfortunately, you should avoid this technique. If we have 20000 particles, 
+     * we are going through each one, calculating a new position, and updating the 
+     * whole attribute on each frame. That can work with a small number of particles, 
+     * but we want millions of particles.
+     */
+    // for(let i = 0; i < count; i ++) { 
+    //     const i3 = i * 3
+    //     const x =  particlesGeometry.attributes.position.array[i3]
+    //     particlesGeometry.attributes.position.array[i3 + 1] = Math.sin(elapsedTime + x)
+    // }
+
+    // particlesGeometry.attributes.position.needsUpdate = true
+
     // Update controls
     controls.update()
 
