@@ -2,12 +2,13 @@ import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'lil-gui'
+import { generateUUID } from 'three/src/math/MathUtils'
 
 /**
  * Base
  */
 // Debug
-const gui = new dat.GUI()
+const gui = new dat.GUI({width: 400})
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -21,6 +22,9 @@ const scene = new THREE.Scene()
 const parameters = {}
 parameters.count = 1000
 parameters.size = 0.02
+
+gui.add(parameters, 'count').min(100).max(1000000).step(100)
+gui.add(parameters, 'size').min(0.001).max(0.1).step(0.001)
 
 const generateGalaxy = () => {
     /**
