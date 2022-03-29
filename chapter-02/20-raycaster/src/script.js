@@ -122,6 +122,16 @@ const tick = () =>
     const intersects = raycaster.intersectObjects(objectsToTest);
     //console.log(intersects.length)
 
+    // Change all objects to red
+    for(const object of objectsToTest) {
+        object.material.color.set('#ff0000')
+    }
+
+    // If object intersecting change it to blue
+    for(const intersect of intersects) {
+        intersect.object.material.color.set('#0000ff')
+    }
+
     // Update controls
     controls.update()
 
