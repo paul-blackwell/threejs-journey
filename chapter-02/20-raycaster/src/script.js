@@ -83,7 +83,6 @@ const mouse = new THREE.Vector2()
 window.addEventListener('mousemove', (event) => {
     mouse.x = event.clientX / sizes.width * 2 - 1
     mouse.y = - (event.clientY / sizes.height) * 2  + 1
-    console.log(mouse)
 })
 
 /**
@@ -116,31 +115,26 @@ const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
 
-    // // Animate object
-    // object1.position.y = Math.sin(elapsedTime * 0.3) * 1.5
-    // object2.position.y = Math.sin(elapsedTime * 0.8) * 1.5
-    // object3.position.y = Math.sin(elapsedTime * 1.4) * 1.5
+    // Animate object
+    object1.position.y = Math.sin(elapsedTime * 0.3) * 1.5
+    object2.position.y = Math.sin(elapsedTime * 0.8) * 1.5
+    object3.position.y = Math.sin(elapsedTime * 1.4) * 1.5
 
-    // // Cast ray
-    // const rayOrigin = new THREE.Vector3(-3, 0, 0)
-    // const rayDirection = new THREE.Vector3(1, 0, 0)
-    // rayDirection.normalize() // Changes the length to 1 (you have to do this)
+    // Cast ray
+    raycaster.setFromCamera(mouse, camera)
+    const objectsToTest = [object1, object2, object3]
+    const intersects = raycaster.intersectObjects(objectsToTest);
 
-    // raycaster.set(rayOrigin, rayDirection);
 
-    // const objectsToTest = [object1, object2, object3]
-    // const intersects = raycaster.intersectObjects(objectsToTest);
-    // //console.log(intersects.length)
+    // Change all objects to red
+    for(const object of objectsToTest) {
+        object.material.color.set('#ff0000')
+    }
 
-    // // Change all objects to red
-    // for(const object of objectsToTest) {
-    //     object.material.color.set('#ff0000')
-    // }
-
-    // // If object intersecting change it to blue
-    // for(const intersect of intersects) {
-    //     intersect.object.material.color.set('#0000ff')
-    // }
+    // If object intersecting change it to blue
+    for(const intersect of intersects) {
+        intersect.object.material.color.set('#0000ff')
+    }
 
     // Update controls
     controls.update()
