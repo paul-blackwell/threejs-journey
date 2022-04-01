@@ -13,6 +13,9 @@ const parameters = {
 
 gui
     .addColor(parameters, 'materialColor')
+    .onChange(() => {
+        material.color.set(parameters.materialColor)
+    })
 
 /**
  * Base
@@ -26,8 +29,21 @@ const scene = new THREE.Scene()
 /**
  * Objects
  */
+// Texture
+const textureLoader = new THREE.TextureLoader()
+const gradientTexture = textureLoader.load('textures/gradients/3.jpg')
+/**
+ * WebGL will try to interpolate the gradient pixels to make the texture 
+ * more realistic, we don't want this as we want our texture to have
+ * a cartoon affect so me need to set the magFilter
+ */
+gradientTexture.magFilter = THREE.NearestFilter 
+
 // Materials 
-const material = new THREE.MeshToonMaterial({ color: parameters.materialColor })
+const material = new THREE.MeshToonMaterial({
+     color: parameters.materialColor,
+     gradientMap: gradientTexture
+    })
 
 // Meshes
 const mesh1 = new THREE.Mesh(
@@ -43,6 +59,13 @@ const mesh3 = new THREE.Mesh(
     material
 )
 scene.add(mesh1, mesh2, mesh3)
+
+/**
+ * Lights
+ */
+const directionalLight = new THREE.DirectionalLight('#ffffff', 1)
+directionalLight.position.set(1, 1, 0)
+scene.add(directionalLight)
 
 /**
  * Sizes
