@@ -2,6 +2,7 @@ import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'lil-gui'
+import CANNON from 'cannon'
 
 /**
  * Debug
@@ -31,6 +32,23 @@ const environmentMapTexture = cubeTextureLoader.load([
     '/textures/environmentMaps/0/pz.png',
     '/textures/environmentMaps/0/nz.png'
 ])
+
+/**
+ * Physics
+ */
+// World
+const world = new CANNON.World()
+world.gravity.set(0, -9.82, 0) // Gravity Y of -9.82 (gravity constant on earth)
+
+// Sphere
+const sphereShape = new CANNON.Sphere(0.5)  // 0.5 is the radius and it needs to be the same as the SphereGeometry radius
+// Bodies are simply objects that will fall and collide with other bodies.
+const sphereBody = new CANNON.Body({
+    mass: 1,
+    position: new CANNON.Vec3(0, 3, 0),
+    shape: sphereShape
+})
+world.addBody(sphereBody)
 
 /**
  * Test sphere
@@ -132,10 +150,14 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  * Animate
  */
 const clock = new THREE.Clock()
+let oldElapsedTime = 0
 
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
+
+    // Update physics world
+    // world.step(1 / 60, ,3)
 
     // Update controls
     controls.update()
