@@ -50,8 +50,19 @@ const sphereBody = new CANNON.Body({
 })
 world.addBody(sphereBody)
 
+// Floor
 /**
- * Test sphere
+ * Note: Everything below a plane in CANNON is infinite  
+ */
+const floorShape = new CANNON.Plane()
+const floorBody = new CANNON.Body()
+floorBody.mass = 0
+floorBody.addShape(floorShape)
+floorBody.quaternion.setFromAxisAngle(new CANNON.Vec3(- 1, 0, 0), Math.PI * 0.5) // This rotates the floorBody
+world.addBody(floorBody)
+
+/**
+ * Sphere
  */
 const sphere = new THREE.Mesh(
     new THREE.SphereGeometry(0.5, 32, 32),
@@ -155,9 +166,12 @@ let oldElapsedTime = 0
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
+    const deltaTime = elapsedTime - oldElapsedTime
+    oldElapsedTime = elapsedTime
 
     // Update physics world
-    // world.step(1 / 60, ,3)
+    world.step(1 / 60, deltaTime, 3)
+    sphere.position.copy(sphereBody.position)
 
     // Update controls
     controls.update()
