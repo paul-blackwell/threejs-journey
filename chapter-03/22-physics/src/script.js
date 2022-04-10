@@ -199,6 +199,8 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 /**
  * Utils
  */
+const objectsToUpdate = []
+
 const createSphere = (radius, position) => {
     const mesh = new THREE.Mesh(
         new THREE.SphereBufferGeometry(radius, 20, 20),
@@ -223,6 +225,12 @@ const createSphere = (radius, position) => {
     })
     body.position.copy(position)
     world.addBody(body)
+
+    // Save in objects to update
+    objectsToUpdate.push({
+        mesh,
+        body
+    })
 }
 
 createSphere(0.5, {x: 0, y: 3, z: 0})
@@ -241,6 +249,10 @@ const tick = () =>
 
     // Update physics world
     // sphereBody.applyForce(new CANNON.Vec3(- 0.5, 0 , 0), sphereBody.position)
+
+    for(const object of objectsToUpdate) {
+       object.mesh.position.copy(object.body.position) 
+    }
 
     world.step(1 / 60, deltaTime, 3)
     // sphere.position.copy(sphereBody.position)
