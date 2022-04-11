@@ -213,22 +213,61 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  */
 const objectsToUpdate = []
 
-const sphereGeometry = new THREE.SphereBufferGeometry(1, 20, 20)
-const sphereMaterial = new THREE.MeshStandardMaterial({
+// const sphereGeometry = new THREE.SphereBufferGeometry(1, 20, 20)
+// const sphereMaterial = new THREE.MeshStandardMaterial({
+//     metalness: 0.3,
+//     roughness: 0.4,
+//     envMap: environmentMapTexture
+// })
+
+// const createSphere = (radius, position) => {
+//     const mesh = new THREE.Mesh(sphereGeometry, sphereMaterial)
+//     mesh.scale.set(radius, radius, radius)
+//     mesh.castShadow = true
+//     mesh.position.copy(position)
+//     scene.add(mesh)
+
+//     // Cannon.js body
+//     const shape = new CANNON.Sphere(radius)
+
+//     const body = new CANNON.Body({
+//         mass: 1,
+//         position: new CANNON.Vec3(0, 3, 0),
+//         shape,
+//         material: defaultMaterial
+//     })
+//     body.position.copy(position)
+//     world.addBody(body)
+
+//     // Save in objects to update
+//     objectsToUpdate.push({
+//         mesh,
+//         body
+//     })
+// }
+
+// createSphere(0.5, {x: 0, y: 3, z: 0})
+
+
+const boxGeometry = new THREE.SphereBufferGeometry(1, 1, 1)
+const boxMaterial = new THREE.MeshStandardMaterial({
     metalness: 0.3,
     roughness: 0.4,
     envMap: environmentMapTexture
 })
-
-const createSphere = (radius, position) => {
-    const mesh = new THREE.Mesh(sphereGeometry, sphereMaterial)
-    mesh.scale.set(radius, radius, radius)
+const createBox = (wight, height, depth, position) => {
+    const mesh = new THREE.Mesh(boxGeometry, boxMaterial)
+    mesh.scale.set(wight, height, depth)
     mesh.castShadow = true
     mesh.position.copy(position)
     scene.add(mesh)
 
     // Cannon.js body
-    const shape = new CANNON.Sphere(radius)
+    /**
+     * A Box in CANNON takes its wight, height, depth from the center so,
+     * we need to divided them by 2 0r (* 0.5)
+     */
+    const shape = new CANNON.Box(wight * 0.5 , height * 0.5, depth * 0.5)
 
     const body = new CANNON.Body({
         mass: 1,
@@ -245,8 +284,6 @@ const createSphere = (radius, position) => {
         body
     })
 }
-
-createSphere(0.5, {x: 0, y: 3, z: 0})
 
 /**
  * Animate
