@@ -9,17 +9,17 @@ import CANNON from 'cannon'
  */
 const gui = new dat.GUI()
 const debugObject = {}
-// debugObject.createSphere = () => {
-//     createSphere(
-//         Math.random() * 0.5,
-//         {
-//             x: (Math.random() - 0.5) * 3,
-//             y: 3,
-//             z: (Math.random() - 0.5) * 3,
-//         }
-//     )
-// }
-// gui.add(debugObject, 'createSphere')
+debugObject.createSphere = () => {
+    createSphere(
+        Math.random() * 0.5,
+        {
+            x: (Math.random() - 0.5) * 3,
+            y: 3,
+            z: (Math.random() - 0.5) * 3,
+        }
+    )
+}
+gui.add(debugObject, 'createSphere')
 
 debugObject.createBox = () => {
     createBox(
@@ -64,8 +64,14 @@ const environmentMapTexture = cubeTextureLoader.load([
  */
 // World
 const world = new CANNON.World()
+world.broadphase = new CANNON.SAPBroadphase(world) // Add a broadphase for performance
+/**
+ * When the Body speed gets incredibly slow (at a point where you can't see it moving), 
+ * the Body can fall asleep and won't be tested unless a sufficient force is applied to it 
+ * by code or if another Body hits it. To do this we need to set allowSleep to true
+ */
+world.allowSleep = true
 world.gravity.set(0, -9.82, 0) // Gravity Y of -9.82 (gravity constant on earth)
-
 
 /**
  * Materials (CANNON)
@@ -129,17 +135,17 @@ world.addBody(floorBody)
 /**
  * Sphere
  */
-// const sphere = new THREE.Mesh(
-//     new THREE.SphereGeometry(0.5, 32, 32),
-//     new THREE.MeshStandardMaterial({
-//         metalness: 0.3,
-//         roughness: 0.4,
-//         envMap: environmentMapTexture,
-//         envMapIntensity: 0.5
-//     })
-// )
-// sphere.castShadow = true
-// sphere.position.y = 0.5
+const sphere = new THREE.Mesh(
+    new THREE.SphereGeometry(0.5, 32, 32),
+    new THREE.MeshStandardMaterial({
+        metalness: 0.3,
+        roughness: 0.4,
+        envMap: environmentMapTexture,
+        envMapIntensity: 0.5
+    })
+)
+sphere.castShadow = true
+sphere.position.y = 0.5
 // scene.add(sphere)
 
 /**
@@ -227,38 +233,38 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  */
 const objectsToUpdate = []
 
-// const sphereGeometry = new THREE.SphereBufferGeometry(1, 20, 20)
-// const sphereMaterial = new THREE.MeshStandardMaterial({
-//     metalness: 0.3,
-//     roughness: 0.4,
-//     envMap: environmentMapTexture
-// })
+const sphereGeometry = new THREE.SphereBufferGeometry(1, 20, 20)
+const sphereMaterial = new THREE.MeshStandardMaterial({
+    metalness: 0.3,
+    roughness: 0.4,
+    envMap: environmentMapTexture
+})
 
-// const createSphere = (radius, position) => {
-//     const mesh = new THREE.Mesh(sphereGeometry, sphereMaterial)
-//     mesh.scale.set(radius, radius, radius)
-//     mesh.castShadow = true
-//     mesh.position.copy(position)
-//     scene.add(mesh)
+const createSphere = (radius, position) => {
+    const mesh = new THREE.Mesh(sphereGeometry, sphereMaterial)
+    mesh.scale.set(radius, radius, radius)
+    mesh.castShadow = true
+    mesh.position.copy(position)
+    scene.add(mesh)
 
-//     // Cannon.js body
-//     const shape = new CANNON.Sphere(radius)
+    // Cannon.js body
+    const shape = new CANNON.Sphere(radius)
 
-//     const body = new CANNON.Body({
-//         mass: 1,
-//         position: new CANNON.Vec3(0, 3, 0),
-//         shape,
-//         material: defaultMaterial
-//     })
-//     body.position.copy(position)
-//     world.addBody(body)
+    const body = new CANNON.Body({
+        mass: 1,
+        position: new CANNON.Vec3(0, 3, 0),
+        shape,
+        material: defaultMaterial
+    })
+    body.position.copy(position)
+    world.addBody(body)
 
-//     // Save in objects to update
-//     objectsToUpdate.push({
-//         mesh,
-//         body
-//     })
-// }
+    // Save in objects to update
+    objectsToUpdate.push({
+        mesh,
+        body
+    })
+}
 
 // createSphere(0.5, {x: 0, y: 3, z: 0})
 
