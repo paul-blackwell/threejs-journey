@@ -27,6 +27,22 @@ debugObject.createBox = () => {
 };
 gui.add(debugObject, "createBox");
 
+// Reset in gui
+debugObject.reset = () => {
+  for (const object of objectsToUpdate) {
+    // Remove body
+    object.body.removeEventListener("collide", playHitSound);
+    world.removeBody(object.body);
+
+    // Remove mesh
+    scene.remove(object.mesh);
+  }
+
+  // Empty objectsToUpdate array
+  objectsToUpdate.slice(0, objectsToUpdate.length);
+};
+gui.add(debugObject, "reset");
+
 /**
  * Base
  */
@@ -45,7 +61,7 @@ const playHitSound = (collision) => {
   const impactStrength = collision.contact.getImpactVelocityAlongNormal();
 
   if (impactStrength > 1.5) {
-    hitSound.volume = Math.random()
+    hitSound.volume = Math.random();
     hitSound.currentTime = 0; // This resets the sound every time the function is fired
     hitSound.play();
   }
