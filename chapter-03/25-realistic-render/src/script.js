@@ -32,8 +32,9 @@ const updateAllMaterials = () => {
       child instanceof THREE.Mesh &&
       child.material instanceof THREE.MeshStandardMaterial
     ) {
-      // child.material.envMap = environmentMap; // this is now handled by "scene.environment = environmentMap;" 
+      // child.material.envMap = environmentMap; // this is now handled by "scene.environment = environmentMap;"
       child.material.envMapIntensity = debugObject.envMapIntensity;
+      child.material.needsUpdate = true;
     }
   });
 };
@@ -159,7 +160,20 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.physicallyCorrectLights = true;
-renderer.outputEncoding = THREE.sRGBEncoding
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1
+
+gui
+  .add(renderer, "toneMapping", {
+    no: THREE.NoToneMapping,
+    Linear: THREE.LinearToneMapping,
+    Reinhard: THREE.ReinhardToneMapping,
+    Cineon: THREE.CineonToneMapping,
+    ACESFilmic: THREE.ACESFilmicToneMapping,
+  })
+  .onFinishChange(updateAllMaterials);
+gui.add(renderer, "toneMappingExposure").min(0).max(10).step(0.001);
 
 /**
  * Animate
