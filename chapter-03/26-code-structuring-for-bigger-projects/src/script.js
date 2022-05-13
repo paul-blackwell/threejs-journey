@@ -1,17 +1,21 @@
 class Robot {
-  constructor(name) {
-    console.log(`I am ${name}. Thank you creator`);
+  constructor(name, legs) {
+    this.name = name;
+    this.legs = legs;
+
+    console.log(`I am ${this.name}. Thank you creator`);
   }
   sayHi() {
-    console.log("Hello!");
+    console.log(`Hello my name is ${this.name}`);
+
+    this.sayHi()
   }
 }
 
-const wallE = new Robot('Wall-E');
-const ultron = new Robot("Ultron");
-const astroBoy = new Robot("Astro Boy");
+const wallE = new Robot('Wall-E', 0);
+const ultron = new Robot("Ultron", 2);
+const astroBoy = new Robot("Astro Boy", 2);
 
-wallE.sayHi();
 
 // import './style.css'
 // import * as THREE from 'three'
