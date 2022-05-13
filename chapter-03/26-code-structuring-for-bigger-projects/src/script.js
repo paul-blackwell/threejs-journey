@@ -4,18 +4,30 @@ class Robot {
     this.legs = legs;
 
     console.log(`I am ${this.name}. Thank you creator`);
-  }
-  sayHi() {
-    console.log(`Hello my name is ${this.name}`);
 
     this.sayHi()
+  }
+
+  sayHi() {
+    console.log(`Hello my name is ${this.name}`);
+  }
+}
+
+class FlyingRobot extends Robot {
+  takeOff() {
+    console.log(`Have a good flight ${this.name}`)
+  }
+
+  land() {
+    console.log(`Welcome back ${this.name}`)
   }
 }
 
 const wallE = new Robot('Wall-E', 0);
-const ultron = new Robot("Ultron", 2);
-const astroBoy = new Robot("Astro Boy", 2);
+const ultron = new FlyingRobot("Ultron", 2);
+const astroBoy = new FlyingRobot("Astro Boy", 2);
 
+astroBoy.takeOff();
 
 // import './style.css'
 // import * as THREE from 'three'
