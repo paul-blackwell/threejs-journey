@@ -4,8 +4,6 @@ class Robot {
     this.legs = legs;
 
     console.log(`I am ${this.name}. Thank you creator`);
-
-    this.sayHi()
   }
 
   sayHi() {
@@ -14,6 +12,14 @@ class Robot {
 }
 
 class FlyingRobot extends Robot {
+  constructor (name, legs) {
+    super(name, legs);
+  }
+
+  sayHi() {
+    console.log(`Hello my name is ${this.name} and I am a flying robot`);
+  }
+
   takeOff() {
     console.log(`Have a good flight ${this.name}`)
   }
@@ -27,7 +33,7 @@ const wallE = new Robot('Wall-E', 0);
 const ultron = new FlyingRobot("Ultron", 2);
 const astroBoy = new FlyingRobot("Astro Boy", 2);
 
-astroBoy.takeOff();
+
 
 // import './style.css'
 // import * as THREE from 'three'
