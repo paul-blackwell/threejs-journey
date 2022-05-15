@@ -1,13 +1,9 @@
-import Robot from "./Robot";
-import FlyingRobot from "./FlyingRobot";
 
-const wallE = new Robot('Wall-E', 0);
-const ultron = new FlyingRobot("Ultron", 2);
-const astroBoy = new FlyingRobot("Astro Boy", 2);
+import './style.css';
+import Experience from './Experience/Experience';
 
+const experience = new Experience(document.querySelector('canvas.webgl'));
 
-
-// import './style.css'
 // import * as THREE from 'three'
 // import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 // import * as dat from 'lil-gui'
