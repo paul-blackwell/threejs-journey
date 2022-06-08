@@ -11,7 +11,7 @@ export default class Fox {
 
     // Debug
     if(this.debug.active) {
-      this.folder = this.debug.ui.addFolder('fox');
+      this.debugFolder = this.debug.ui.addFolder('fox');
     }
 
     // Setup
@@ -55,6 +55,19 @@ export default class Fox {
       newAction.crossFadeFrom(oldAction, 1);
 
       this.animation.actions.current = newAction;
+    }
+
+    // Debug
+    if(this.debug.active) {
+      const debugObject = {
+        playIdle: () => { this.animation.play('idle') },
+        playWalking: () => { this.animation.play('walking') },
+        playRunning: () => { this.animation.play('running') },
+      }
+      console.log(debugObject)
+      this.debugFolder.add(debugObject, 'playIdle');
+      this.debugFolder.add(debugObject, 'playWalking');
+      this.debugFolder.add(debugObject, 'playRunning');
     }
   }
 
