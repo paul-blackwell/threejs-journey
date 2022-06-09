@@ -32,7 +32,21 @@ export default class Environment {
         .name('sunLightIntensity')
         .min(0)
         .max(10)
-        .step(0.001)
+        .step(0.001);
+
+      this.debugFolder
+        .add(this.sunLight.position, 'x')
+        .name('sunLightX')
+        .min(-5)
+        .max(5)
+        .step(0.001);
+
+      this.debugFolder
+        .add(this.sunLight.position, 'y')
+        .name('sunLightY')
+        .min(-5)
+        .max(5)
+        .step(0.001);
     }
   }
 
