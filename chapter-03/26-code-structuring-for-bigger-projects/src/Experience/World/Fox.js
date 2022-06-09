@@ -64,7 +64,6 @@ export default class Fox {
         playWalking: () => { this.animation.play('walking') },
         playRunning: () => { this.animation.play('running') },
       }
-      console.log(debugObject)
       this.debugFolder.add(debugObject, 'playIdle');
       this.debugFolder.add(debugObject, 'playWalking');
       this.debugFolder.add(debugObject, 'playRunning');
