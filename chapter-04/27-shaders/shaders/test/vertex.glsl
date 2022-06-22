@@ -6,9 +6,11 @@ attribute vec3 position;
 
 void main()
 {
-  vec2 foo = vec2(0.0);
-  foo.x = 1.0;
-  foo.y = 2.0;
+  vec4 modelPosition = modelMatrix * vec4(position, 1.0);
+  vec4 viewPosition = viewMatrix * modelPosition;
+  vec4 projectedPosition = projectionMatrix * viewPosition;
 
-  gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
+  gl_Position = projectedPosition;
+
+  // gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
 }
