@@ -1,19 +1,9 @@
-uniform mat4 projectionMatrix;
-uniform mat4 viewMatrix;
-uniform mat4 modelMatrix;
 uniform vec2 uFrequency;
 uniform float uTime;
-
-attribute vec3 position;
-attribute vec2 uv;
-
-attribute float aRandom;
 
 varying vec2 vUv;
 varying float vElevation;
 
-
-// varying float vRandom;
 
 void main()
 {
@@ -23,8 +13,7 @@ void main()
   elevation += sin(modelPosition.y * uFrequency.y - uTime) * 0.1;
 
   modelPosition.z += elevation;
-  // modelPosition.z += aRandom * 0.1;
-
+ 
 
   vec4 viewPosition = viewMatrix * modelPosition;
   vec4 projectedPosition = projectionMatrix * viewPosition;
@@ -34,5 +23,4 @@ void main()
   vUv = uv;
   vElevation = elevation;
 
-  // vRandom = aRandom;
 }
